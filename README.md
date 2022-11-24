@@ -1,1 +1,1 @@
-# coding-competitions
+# Code for competitions, AtCoder
