@@ -1,14 +1,34 @@
-# atcorder env
-FROM python:3.8.2-buster
+## AtCorder env
+# Use official python image as base image
+FROM python:3.10-slim
 
 ENV PYTHONUNBUFFERD 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONPATH /code
 
-RUN mkdir /code/
+# Set work dir
 WORKDIR /code
+
+# Install packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    tmux \
+    tree \
+    vim \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements.txt under /code
 COPY .devcontainer/requirements.txt /code
 
+# Install Python libs
 RUN pip install --upgrade pip
 RUN pip install --upgrade setuptools
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Set Jupyter Notebook settings
+EXPOSE 8888
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]

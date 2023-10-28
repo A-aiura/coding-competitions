@@ -1,4 +1,8 @@
+numpy
+scipy
+pandas
+matplotlib
+jupyter
+notebook
 online-judge-tools
 Selenium
-numpy
-pandas
