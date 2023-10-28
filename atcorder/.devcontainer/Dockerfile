@@ -21,8 +21,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements.txt under /code
-COPY .devcontainer/requirements.txt /code
+# Copy python libs in requirements.txt
+COPY ./requirements.txt /code
 
 # Install Python libs
 RUN pip install --upgrade pip

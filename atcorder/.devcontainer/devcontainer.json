@@ -1,0 +1,13 @@
+{
+  "name": "Python Container",
+  "dockerFile": "./Dockerfile",
+  "forwardPorts": [8888],
+  "workspaceFolder": "/code",
+  "imageName": "atcorder-env",
+  "containerName": "atcorder-container",
+  "mounts": [
+    "source=${localWorkspaceFolder}/workspace,target=/code/workspace,type=bind",
+    "source=${localWorkspaceFolder}/utils,target=/code/utils,type=bind",
+    "source=${localWorkspaceFolder}/atcorder-problems,target=/code/atcorder-problems,type=bind"
+  ]
+}

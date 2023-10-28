@@ -7,8 +7,12 @@
 # =======================
 
 # Set docker image name
-IMAGE_NAME=atcorder
-CONTAINER_NAME=atcorder-container
+IMAGE_NAME=vsc-atcorder- #atcorder-env
+CONTAINER_NAME=vsc-atcorder #-container
+
+# Only if you cannot know image/container id
+IMAGE_ID := $(shell docker images | grep $(IMAGE_NAME) | awk '{print $$3}')
+CONTAINER_ID := $(shell docker ps -a | grep $(CONTAINER_NAME) | awk '{print $$1}')
 
 # Set default target(only `make` to run)
 default: help
@@ -25,6 +29,8 @@ help:
 	@echo "  make rmi         Remove the Docker image."
 	@echo "  make show        Show the Docker container."
 	@echo "  make showi       Show the Docker images."
+	@echo "  make rmu         Remove the unknown Docker container."
+	@echo "  make rmiu        Remove the unknown Docker image."
 
 # Build docker image
 build:
@@ -65,4 +71,14 @@ show:
 showi:
 	docker images
 
-.PHONY: default help build run start stop rm clean rmi show showi
+rmu:
+	for c_id in $(CONTAINER_ID) ; do \
+		docker rm $$c_id ; \
+	done
+
+rmiu:
+	for i_id in $(IMAGE_ID) ; do \
+		docker rmi $$i_id ; \
+	done
+
+.PHONY: default help build run start stop rm clean rmi show showi rmu rmiu
